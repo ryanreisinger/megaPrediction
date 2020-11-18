@@ -46,3 +46,6 @@ vignettes/*.pdf
 
 # Manuscript files
 /manuscript_gitignore/
+
+# Model output grid files
+/output/predictions/
