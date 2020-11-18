@@ -1,0 +1,26 @@
+[general]
+creator=R package 'raster'
+created=2018-10-03 09:41:20
+[georeference]
+nrows=400
+ncols=3600
+xmin=-180
+ymin=-80
+xmax=180
+ymax=-40
+projection=+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0
+[data]
+datatype=FLT4S
+byteorder=little
+nbands=1
+bandorder=BIL
+categorical=FALSE
+minvalue=0
+maxvalue=0
+nodatavalue=-3.4e+38
+[legend]
+legendtype=
+values=
+color=
+[description]
+layername=Mask_Antarctica_v02
