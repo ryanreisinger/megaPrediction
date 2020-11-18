@@ -49,3 +49,4 @@ vignettes/*.pdf
 
 # Model output grid files
 /output/predictions/
+.Rproj.user
