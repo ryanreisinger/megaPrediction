@@ -1,0 +1,2 @@
+"mtry","splitrule","min.node.size","ROC","Sens","Spec","ROCSD","SensSD","SpecSD","model","n_tracks","validation_all_tracks","validation_iwc"
+NA,NA,NA,NA,NA,NA,NA,NA,NA,"M3",165,0.945112058466065,0.724967018347035
