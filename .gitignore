@@ -37,3 +37,12 @@ vignettes/*.pdf
 
 # R Environment Variables
 .Renviron
+
+# IWC data
+/data_in/IWC/
+
+# Landmask files
+/data_landmask/
+
+# Manuscript files
+/manuscript_gitignore/
