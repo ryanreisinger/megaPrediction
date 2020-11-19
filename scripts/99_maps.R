@@ -41,12 +41,12 @@ envar_titles <- data.frame("name" = names(envars),
                                        "Bottom slope\n(deg)",
                                        "Distance to slope\n(km)",
                                        "Distance to shelf\n(km)",
-                                       "Sea surface temperature\n(°C)",
-                                       "Sea surface temperature\nfront\n()",
-                                       "Sea surface temperature\nvariance\n(°C)",
-                                       "Sea ice concentration\n(%)",
+                                       "Sea surface\ntemperature\n(°C)",
+                                       "Sea surface\ntemperature\nfront\n()",
+                                       "Sea surface\ntemperature\nvariance\n(°C)",
+                                       "Sea ice\nconcentration\n(%)",
                                        "Distance to\nsea ice edge\n(km)",
-                                       "Sea ice concentration\nvariance\n(%)",
+                                       "Sea ice\nconcentration variance\n(%)",
                                        "Eddy kinetic energy\n(unit)",
                                        "Sea surface height\nanomaly\n(m)",
                                        "Sea surface height\ngradient\n(unit)"))
@@ -68,7 +68,7 @@ this_map$bathy_legend <- NULL
 for (i in 1:nlayers(envars)) {
 tiff(paste0("./figures/envars/envars_", names(envars[[i]]), ".tiff"),
      height = 3,
-     width = 4.5,
+     width = 5,
      units = "in",
      res = 300)
 plot(this_map)
