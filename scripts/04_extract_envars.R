@@ -97,29 +97,28 @@ SLOPEDIST <- mask(SLOPEDIST, msk)
 # SST
 #-----------
 # SST
-# High resolution SST
+# High resolution SST (this fails, uses too much temp space)
 if (FALSE) {
   # Note that GHRSST is only from 2002-06-01
   SST <- readghrsst(date = dates$dates[dates$dates > as.POSIXct("2002-06-01")], xylim = extent(r_pad))
   SST <- SST - 273.15 # K to C
 }
 
-# Or lower resolution (which allows fronts to be calculated)
+# Or lower resolution SST (which allows fronts to be calculated)
 if (TRUE) {
   SST <- readsst(date = dates$dates, xylim = extent(r_pad))
-  
-  # SST front
-  SSTFRONT <- stack(SST)
-  for (i in 1:nlayers(SST)) {
-    this_sst <- SST[[i]]
-    SSTFRONT[[i]]  <- detectFronts(this_sst, method = "BelkinOReilly2009")
-  }
-  
-  SSTFRONT <- mean(SSTFRONT)
-  SSTFRONT <- resample(SSTFRONT, r)
-  SSTFRONT <- mask(SSTFRONT, msk)
-  
 }
+
+# SST front
+SSTFRONT <- stack(SST)
+for (i in 1:nlayers(SST)) {
+  this_sst <- SST[[i]]
+  SSTFRONT[[i]]  <- detectFronts(this_sst, method = "BelkinOReilly2009")
+}
+
+SSTFRONT <- mean(SSTFRONT)
+SSTFRONT <- resample(SSTFRONT, r)
+SSTFRONT <- mask(SSTFRONT, msk)
 
 # SST intra-seasonal variance
 SSTVAR <- intra_var(SST)
