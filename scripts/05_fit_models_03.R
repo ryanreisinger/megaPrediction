@@ -108,7 +108,7 @@ tc <- trainControl(method = "cv",
                    index = folds)
 
 # Set up parameter grid
-rfGrid <-  data.frame(mtry = c(3, 4, 5),
+rfGrid <-  data.frame(mtry = c(1, 3, 5),
                       splitrule = "gini",
                       min.node.size = 1)
 
@@ -134,7 +134,8 @@ system.time(
               metric = "ROC",
               trControl = tc,
               tuneGrid = rfGrid,
-              importance = "impurity")
+              importance = "impurity",
+              num.trees = 1000)
 )
 
 # Inspect
