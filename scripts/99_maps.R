@@ -41,15 +41,15 @@ envar_titles <- data.frame("name" = names(envars),
                                        "Bottom slope\n(deg)",
                                        "Distance to slope\n(km)",
                                        "Distance to shelf\n(km)",
-                                       "Sea surface\ntemperature\n(°C)",
-                                       "Sea surface\ntemperature\nfront\n()",
-                                       "Sea surface\ntemperature\nvariance\n(°C)",
-                                       "Sea ice\nconcentration\n(%)",
-                                       "Distance to\nsea ice edge\n(km)",
-                                       "Sea ice\nconcentration variance\n(%)",
+                                       "Sea surface temperature\n(°C)",
+                                       "Sea surface temperature gradient\n(°C/km)",
+                                       "Sea surface temperature variance\n(°C)",
+                                       "Sea ice concentration\n(%)",
+                                       "Distance to sea ice edge\n(km)",
+                                       "Sea ice concentration variance\n(%)",
                                        "Eddy kinetic energy\n(unit)",
-                                       "Sea surface height\nanomaly\n(m)",
-                                       "Sea surface height\ngradient\n(unit)"))
+                                       "Sea surface height anomaly\n(m)",
+                                       "Sea surface height gradient\n(unit)"))
 
 # Option 1
 # SOplot
@@ -67,7 +67,7 @@ this_map$bathy_legend <- NULL
 # Plot
 for (i in 1:nlayers(envars)) {
 tiff(paste0("./figures/envars/envars_", names(envars[[i]]), ".tiff"),
-     height = 3,
+     height = 2.5,
      width = 5,
      units = "in",
      res = 300)
@@ -102,11 +102,13 @@ for (i in 1:nlayers(envars)) {
                 aes(x = x, y = y, fill = val)) +
     scale_fill_gradientn(colors = ocean.haline(125), na.value = NA, name = this_caption) +
     labs(subtitle = this_var) +
-    geom_text(data = as.data.frame(lon_labels), aes(x = lon, y = lat, label = lon_name), colour = "black", size = 2)
+    geom_text(data = as.data.frame(lon_labels), aes(x = lon, y = lat, label = lon_name), colour = "black", size = 2) +
+    theme(legend.position = "bottom") +
+    guides(fill = guide_colorbar(title.position = "top", title.hjust = 0.5, barwidth = 10))
   
   tiff(paste0("./figures/envars_alt/envars_alt_", this_var, ".tiff"),
-       height = 4,
-       width = 5.5,
+       height = 5,
+       width = 5,
        units = "in",
        res = 300)
   print(p)
