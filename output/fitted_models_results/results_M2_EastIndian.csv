@@ -1,2 +1,0 @@
-"mtry","splitrule","min.node.size","ROC","Sens","Spec","ROCSD","SensSD","SpecSD","model","n_tracks","validation_all_tracks","validation_iwc"
-4,"gini",1,0.794277205746274,0.695682747406004,0.676558927970222,0.0586170740942337,0.116203303520418,0.300629425270173,"M2_EastIndian",14,0.73917993160735,0.716815194658569
