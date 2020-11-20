@@ -55,6 +55,13 @@ area_grid$iwc[which(area_grid$iwc == 0)] <- "S"
 
 allow_par <- FALSE
 number_k <- 10
+number_repeats <- 10
+number_trees <- 2000
+
+# Parameter grid
+rfGrid <-  data.frame(mtry = c(2, 3, 4),
+                      splitrule = "gini",
+                      min.node.size = 1)
 
 # Figure params
 varimp_fig_height = 60/25.4
@@ -98,7 +105,8 @@ d1 <- dat # Using everything
 folds <- groupKFold(group = d1$id, k = number_k) # This is caret's new built-in function
 
 # Train control
-tc <- trainControl(method = "cv",
+tc <- trainControl(method = "repeatedcv",
+                   repeats = number_repeats,
                    number = length(folds),
                    search = "grid",
                    classProbs = TRUE,
@@ -106,11 +114,6 @@ tc <- trainControl(method = "cv",
                    allowParallel = allow_par,
                    summaryFunction = twoClassSummary,
                    index = folds)
-
-# Set up parameter grid
-rfGrid <-  data.frame(mtry = c(1, 3, 5),
-                      splitrule = "gini",
-                      min.node.size = 1)
 
 # Set up parallel
 # clust <- makeCluster(detectCores() - 1) # leave 1 core for OS
@@ -135,7 +138,7 @@ system.time(
               trControl = tc,
               tuneGrid = rfGrid,
               importance = "impurity",
-              num.trees = 1000)
+              num.trees = number_trees)
 )
 
 # Inspect
@@ -206,7 +209,8 @@ d2_Pacific <- dplyr::filter(dat, region == "Pacific") %>%
 folds <- groupKFold(group = d2_Pacific$id, k = number_k)
 
 # Train control
-tc <- trainControl(method = "cv",
+tc <- trainControl(method = "repeatedcv",
+                   repeats = number_repeats,
                    number = length(folds),
                    search = "grid",
                    classProbs = TRUE,
@@ -231,7 +235,8 @@ Mr_Pacific <- train(x = as.data.frame(dplyr::select(d2_Pacific,
                     metric = "ROC",
                     trControl = tc,
                     tuneGrid = rfGrid,
-                    importance = "impurity")
+                    importance = "impurity",
+                    num.trees = number_trees)
 
 # Inspect
 Mr_Pacific
@@ -284,7 +289,8 @@ d2_EastPacific <- dplyr::filter(dat, region == "EastPacific") %>%
 folds <- groupKFold(group = d2_EastPacific$id, k = number_k)
 
 # Train control
-tc <- trainControl(method = "cv",
+tc <- trainControl(method = "repeatedcv",
+                   repeats = number_repeats,
                    number = length(folds),
                    search = "grid",
                    classProbs = TRUE,
@@ -309,7 +315,8 @@ Mr_EastPacific <- train(x = as.data.frame(dplyr::select(d2_EastPacific,
                     metric = "ROC",
                     trControl = tc,
                     tuneGrid = rfGrid,
-                    importance = "impurity")
+                    importance = "impurity",
+                    num.trees = number_trees)
 
 # Inspect
 Mr_EastPacific
@@ -362,7 +369,8 @@ d2_WestPacific <- dplyr::filter(dat, region == "WestPacific") %>%
 folds <- groupKFold(group = d2_WestPacific$id, k = number_k)
 
 # Train control
-tc <- trainControl(method = "cv",
+tc <- trainControl(method = "repeatedcv",
+                   repeats = number_repeats,
                    number = length(folds),
                    search = "grid",
                    classProbs = TRUE,
@@ -387,7 +395,8 @@ Mr_WestPacific <- train(x = as.data.frame(dplyr::select(d2_WestPacific,
                         metric = "ROC",
                         trControl = tc,
                         tuneGrid = rfGrid,
-                        importance = "impurity")
+                        importance = "impurity",
+                        num.trees = number_trees)
 
 # Inspect
 Mr_WestPacific
@@ -440,7 +449,8 @@ d2_EastIndian <- dplyr::filter(dat, region == "EastIndian") %>%
 folds <- groupKFold(group = d2_EastIndian$id, k = number_k)
 
 # Train control
-tc <- trainControl(method = "cv",
+tc <- trainControl(method = "repeatedcv",
+                   repeats = number_repeats,
                    number = length(folds),
                    search = "grid",
                    classProbs = TRUE,
@@ -465,7 +475,8 @@ Mr_EastIndian <- train(x = as.data.frame(dplyr::select(d2_EastIndian,
                         metric = "ROC",
                         trControl = tc,
                         tuneGrid = rfGrid,
-                        importance = "impurity")
+                       importance = "impurity",
+                       num.trees = number_trees)
 
 # Inspect
 Mr_EastIndian
@@ -518,7 +529,8 @@ d2_Atlantic <- dplyr::filter(dat, region == "Atlantic") %>%
 folds <- groupKFold(group = d2_Atlantic$id, k = number_k)
 
 # Train control
-tc <- trainControl(method = "cv",
+tc <- trainControl(method = "repeatedcv",
+                   repeats = number_repeats,
                    number = length(folds),
                    search = "grid",
                    classProbs = TRUE,
@@ -632,19 +644,15 @@ d3 <- d3[d3$n_sim == 0, ]
 folds <- groupKFold(group = d3$id, k = number_k)
 
 # Train control
-tc <- trainControl(method = "cv",
-                   number = number_k,
+tc <- trainControl(method = "repeatedcv",
+                   repeats = number_repeats,
+                   number = length(folds),
                    search = "grid",
                    classProbs = TRUE,
                    # sampling = "down",
                    allowParallel = allow_par,
                    summaryFunction = multiClassSummary,
                    index = folds)
-
-# Params
-rfGrid <-  data.frame(mtry = c(3, 4, 5),
-                      splitrule = "gini",
-                      min.node.size = 1)
 
 # Fit the model
 M3 <- train(x = as.data.frame(dplyr::select(d3,
@@ -663,7 +671,8 @@ M3 <- train(x = as.data.frame(dplyr::select(d3,
             metric = "AUC",
             trControl = tc,
             tuneGrid = rfGrid,
-            importance = "impurity")
+            importance = "impurity",
+            num.trees = number_trees)
 
 # Varimp
 varimpR(mod = M3, mod_name = "M3")
@@ -763,7 +772,8 @@ d4 <- dat # Using everything
 folds <- groupKFold(group = d4$id, k = number_k)
 
 # Train control
-tc <- trainControl(method = "cv",
+tc <- trainControl(method = "repeatedcv",
+                   repeats = number_repeats,
                    number = length(folds),
                    search = "grid",
                    classProbs = TRUE,
@@ -772,10 +782,6 @@ tc <- trainControl(method = "cv",
                    summaryFunction = twoClassSummary,
                    index = folds)
 
-# Params
-rfGrid <-  data.frame(mtry = c(3, 4, 5),
-                      splitrule = "gini",
-                      min.node.size = 1)
 
 # Fit the model
 M4 <- train(x = as.data.frame(dplyr::select(d4,
@@ -789,7 +795,8 @@ M4 <- train(x = as.data.frame(dplyr::select(d4,
               metric = "ROC",
               trControl = tc,
               tuneGrid = rfGrid,
-              importance = "impurity")
+            importance = "impurity",
+            num.trees = number_trees)
 
 # Varimp
 varimpR(mod = M4, mod_name = "M4")
@@ -852,7 +859,8 @@ d5 <- dat # Using everything
 folds <- groupKFold(group = d5$id, k = number_k)
 
 # Train control
-tc <- trainControl(method = "cv",
+tc <- trainControl(method = "repeatedcv",
+                   repeats = number_repeats,
                    number = length(folds),
                    search = "grid",
                    classProbs = TRUE,
@@ -861,10 +869,6 @@ tc <- trainControl(method = "cv",
                    summaryFunction = twoClassSummary,
                    index = folds)
 
-# Params
-rfGrid <-  data.frame(mtry = c(3, 4, 5),
-                      splitrule = "gini",
-                      min.node.size = 1)
 
 # Fit the model
 M5 <- train(x = as.data.frame(dplyr::select(d5,
@@ -888,7 +892,8 @@ M5 <- train(x = as.data.frame(dplyr::select(d5,
             metric = "ROC",
             trControl = tc,
             tuneGrid = rfGrid,
-            importance = "impurity")
+            importance = "impurity",
+            num.trees = number_trees)
 
 # Varimp
 varimpR(mod = M5, mod_name = "M5")
