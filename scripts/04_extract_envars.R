@@ -243,6 +243,17 @@ envars <- stack(DEPTH,
                 SSHA,
                 SSHGRAD)
 
+## Fill true data gaps using a focal filter
+if (TRUE) {
+  for (i in 1:nlayers(envars)) {
+    foo <- envars[[i]]
+    foo <- focal(foo, w=matrix(1,nrow=13,ncol=13), fun = "mean", na.rm = T)
+    foo <- cover(envars[[i]], foo)
+    foo <- mask(foo, msk)
+    envars[[i]] <- foo
+  }
+}
+
 names(envars) <- c("DEPTH",
                    "SLOPE",
                    "SLOPEDIST",
@@ -256,17 +267,6 @@ names(envars) <- c("DEPTH",
                    "EKE",
                    "SSHA",
                    "SSHGRAD")
-
-## Fill true data gaps using a focal filter
-if (TRUE) {
-  for (i in 1:nlayers(envars)) {
-    foo <- envars[[i]]
-    foo <- focal(foo, w=matrix(1,nrow=13,ncol=13), fun = "mean", na.rm = T)
-    foo <- cover(SSTFRONT, foo)
-    foo <- mask(foo, msk)
-    envars[[i]] <- foo
-  }
-}
 
 saveRDS(envars, "./output/envars.RDS")
 
