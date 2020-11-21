@@ -257,6 +257,17 @@ names(envars) <- c("DEPTH",
                    "SSHA",
                    "SSHGRAD")
 
+## Fill true data gaps using a focal filter
+if (TRUE) {
+  for (i in 1:nlayers(envars)) {
+    foo <- envars[[i]]
+    foo <- focal(foo, w=matrix(1,nrow=13,ncol=13), fun = "mean", na.rm = T)
+    foo <- cover(SSTFRONT, foo)
+    foo <- mask(foo, msk)
+    envars[[i]] <- foo
+  }
+}
+
 saveRDS(envars, "./output/envars.RDS")
 
 # Create a dataframe for prediction
