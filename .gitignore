@@ -50,7 +50,3 @@ vignettes/*.pdf
 # Model output grid files
 /output/predictions/
 .Rproj.user
-
-# Ignore large RDS files until LFS is up and running
-/output/envars.RDS
-/output/envar_frame.RDS
