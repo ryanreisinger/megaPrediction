@@ -55,7 +55,7 @@ area_grid$iwc[which(area_grid$iwc == 0)] <- "S"
 
 allow_par <- FALSE
 number_k <- 10
-number_repeats <- 10
+number_repeats <- 30
 number_trees <- 2000
 
 # Parameter grid
