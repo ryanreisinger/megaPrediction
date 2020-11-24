@@ -2,6 +2,8 @@
 
 setwd("C:\\Users\\Ryan Reisinger\\Documents\\Academic\\UCSC\\Work\\Analysis\\megaPrediction")
 
+library(dplyr)
+
 # Get results
 fls <- list.files("./output/fitted_models_results/", full.names = T)
 dat <- do.call(rbind, lapply(fls, read.csv, stringsAsFactors = F))
@@ -23,3 +25,14 @@ out$External_validation_catches_and_sightings <- round(out$External_validation_c
 
 # Save
 write.csv(out, "./output/model_results_table.csv", row.names = F)
+
+# Correlations
+dat_r <- dplyr::filter(out,
+                       Model == "Mr_Atlantic" |
+                         Model == "Mr_EastIndian" |
+                         Model == "Mr_EastPacific" |
+                         Model == "Mr_Pacific" |
+                         Model == "Mr_WestPacific")
+
+cor(dat_r$N_tracks, dat_r$External_validation_all_tracks, method = "spearman")
+cor(dat_r$N_tracks, dat_r$External_validation_catches_and_sightings, method = "spearman")
