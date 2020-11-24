@@ -11,6 +11,7 @@ library(pals)
 fls <- list.files("./output/fitted_models_varimp/", full.names = T)
 dat <- do.call(rbind, lapply(fls, read.csv, stringsAsFactors = F))
 
+# Select and format data
 dat_sub <- dplyr::filter(dat,
                          Model == "Mr_Atlantic" |
                            Model == "Mr_EastIndian" |
@@ -22,12 +23,16 @@ plot_data <- pivot_wider(data = dat_sub,
                          names_from = "Covariate",
                          values_from = "Overall")
 
-tolcols <- c("#0077BB",
+# Colours
+these_cols <- c("#0077BB",
              "#33BBEE",
              "#009988",
              "#EE7733",
              "#CC3311")
 
+these_cols <- brewer.set1(5)
+
+# Plot
 pdf("./figures/varimp_radar.pdf",
     useDingbats = F,
     width = 10, height = 6)
@@ -37,6 +42,6 @@ ggradar(plot_data,
         grid.mid = 50,
         grid.max = 100,
         gridline.mid.colour = "grey",
-        group.colours = brewer.set1(5)
+        group.colours = these_cols
 )        
 dev.off()
