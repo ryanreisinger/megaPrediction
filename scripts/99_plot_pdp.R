@@ -37,30 +37,56 @@ Mr_WestPacific <- readRDS("./output/fitted_models/Mr_WestPacific.RDS")
 
 # Create explainers
 explainer_Atlantic <- DALEX::explain(model = Mr_Atlantic, 
-                                data = dat[,9:19],
-                                y = dat$real, 
+                                data = dat[!is.na(dat$region) & dat$region == "Atlantic",9:19],
+                                y = dat[!is.na(dat$region) & dat$region == "Atlantic", ]$real, 
                                 label = "Mr_Atlantic")
 
 explainer_EastIndian <- DALEX::explain(model = Mr_EastIndian, 
-                                        data = dat[,9:19],
-                                        y = dat$real, 
+                                       data = dat[!is.na(dat$region) & dat$region == "EastIndian",9:19],
+                                       y = dat[!is.na(dat$region) & dat$region == "EastIndian", ]$real, 
                                         label = "Mr_EastIndian")
 
 explainer_EastPacific <- DALEX::explain(model = Mr_EastPacific, 
-                                       data = dat[,9:19],
-                                       y = dat$real, 
+                                        data = dat[!is.na(dat$region) & dat$region == "EastPacific",9:19],
+                                        y = dat[!is.na(dat$region) & dat$region == "EastPacific", ]$real, 
                                        label = "Mr_EastPacific")
 
 explainer_Pacific <- DALEX::explain(model = Mr_Pacific, 
-                                       data = dat[,9:19],
-                                       y = dat$real, 
+                                    data = dat[!is.na(dat$region) & dat$region == "Pacific",9:19],
+                                    y = dat[!is.na(dat$region) & dat$region == "Pacific", ]$real, 
                                        label = "Mr_Pacific")
 
 explainer_WestPacific <- DALEX::explain(model = Mr_WestPacific, 
-                                       data = dat[,9:19],
-                                       y = dat$real, 
+                                        data = dat[!is.na(dat$region) & dat$region == "WestPacific",9:19],
+                                        y = dat[!is.na(dat$region) & dat$region == "WestPacific", ]$real, 
                                        label = "Mr_WestPacific")
 
+
+# All data?
+# explainer_Atlantic <- DALEX::explain(model = Mr_Atlantic, 
+#                                      data = dat[,9:19],
+#                                      y = dat$real, 
+#                                      label = "Mr_Atlantic")
+# 
+# explainer_EastIndian <- DALEX::explain(model = Mr_EastIndian, 
+#                                        data = dat[,9:19],
+#                                        y = dat$real,
+#                                        label = "Mr_EastIndian")
+# 
+# explainer_EastPacific <- DALEX::explain(model = Mr_EastPacific, 
+#                                         data = dat[,9:19],
+#                                         y = dat$real,
+#                                         label = "Mr_EastPacific")
+# 
+# explainer_Pacific <- DALEX::explain(model = Mr_Pacific, 
+#                                     data = dat[,9:19],
+#                                     y = dat$real, 
+#                                     label = "Mr_Pacific")
+# 
+# explainer_WestPacific <- DALEX::explain(model = Mr_WestPacific, 
+#                                         data = dat[,9:19],
+#                                         y = dat$real,
+#                                         label = "Mr_WestPacific")
 #-------------------------------------------------------------------
 # Plots for n variables
 
@@ -100,17 +126,32 @@ pdp_Pacific <- model_profile(explainer = explainer_Pacific, variables = this_var
 pdp_WestPacific <- model_profile(explainer = explainer_WestPacific, variables = this_var)
 
 # Plot
+if (this_var == "SST") {
 p <- plot(pdp_Atlantic, pdp_EastIndian, pdp_EastPacific, pdp_Pacific, pdp_WestPacific,
      title = "", subtitle = "") +
   scale_color_manual(values = brewer.set1(5), name = "Model") +
-  scale_y_continuous(limits = c(0, 1)) +
-  # scale_x_continuous(limits = c(min_lim, max_lim)) +
+  # scale_y_continuous(limits = c(0, 1)) +
+  scale_x_continuous(limits = c(min_lim, max_lim)) +
   labs(x = envars$title[i], y = "p(Observed track)") +
   theme_bw() +
   theme(axis.text = element_text(colour = "black"),
         strip.background = element_blank(),
         axis.line = element_blank(),
         panel.border = element_rect(colour = "black"))
+
+} else {
+  p <- plot(pdp_Atlantic, pdp_EastIndian, pdp_EastPacific, pdp_Pacific, pdp_WestPacific,
+            title = "", subtitle = "") +
+    scale_color_manual(values = brewer.set1(5), name = "Model") +
+    # scale_y_continuous(limits = c(0, 1)) +
+    # scale_x_continuous(limits = c(min_lim, max_lim), expand = c(0,0)) +
+    labs(x = envars$title[i], y = "p(Observed track)") +
+    theme_bw() +
+    theme(axis.text = element_text(colour = "black"),
+          strip.background = element_blank(),
+          axis.line = element_blank(),
+          panel.border = element_rect(colour = "black")) 
+}
 
 # Save
 pdf(paste0("./figures/pdp/pdp_", this_var, ".pdf"), height = 3, width = 5, useDingbats = F)
