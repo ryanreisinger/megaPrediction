@@ -1,0 +1,11 @@
+"Model","N_tracks","Internal_cross_validation_mean","Internal_cross_validation_sd","External_validation_all_tracks","External_validation_catches_and_sightings","Rank","Univariate_ex_p","Combinatorial_ex_p"
+"M1",168,0.792,0.029,0.948,0.772,4,NA,NA
+"M2",168,NA,NA,0.87,0.805,2,NA,NA
+"M3",168,NA,NA,0.937,0.764,5,NA,NA
+"M4",168,0.922,0.031,0.964,0.782,3,NA,NA
+"M5",168,0.915,0.032,0.966,0.821,1,NA,NA
+"Mr_Atlantic",41,0.886,0.042,0.685,0.702,6,1.76,0
+"Mr_EastIndian",15,0.806,0.084,0.743,0.677,8,6.32,0
+"Mr_EastPacific",50,0.711,0.081,0.628,0.628,9,0.1,0
+"Mr_Pacific",18,0.822,0.048,0.641,0.681,7,3.25,0
+"Mr_WestPacific",29,0.84,0.039,0.689,0.596,10,8.15,0.66
