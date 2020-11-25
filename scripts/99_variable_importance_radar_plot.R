@@ -35,13 +35,25 @@ these_cols <- brewer.set1(5)
 # Plot
 pdf("./figures/varimp_radar.pdf",
     useDingbats = F,
-    width = 10, height = 6)
+    width = 8, height = 5)
 ggradar(plot_data,
         values.radar = c("0", "50", "100"),
         grid.min = 0,
         grid.mid = 50,
         grid.max = 100,
         gridline.mid.colour = "grey",
-        group.colours = these_cols
+        group.colours = these_cols,
+        base.size = 9,
+        group.line.width = 1,
+        group.point.size = 2,
+        background.circle.colour = "white",
+        gridline.min.linetype = 1,
+        gridline.mid.linetype = 1,
+        gridline.max.linetype = 1
 )        
 dev.off()
+
+# Check average varimp
+dat_group <- group_by(dat_sub, Covariate) %>% 
+  summarise(., avg = mean(Overall)) %>% 
+  arrange(., avg)
