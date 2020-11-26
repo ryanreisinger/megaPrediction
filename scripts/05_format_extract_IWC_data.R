@@ -276,16 +276,16 @@ p_b <- plot(this_map) +
 
 
 tiff("./figures/iwc_catch_map.tiff",
-     height = 5,
-     width = 5,
+     height = 4,
+     width = 5.5,
      units = "in",
      res = 300)
 print(p_a)
 dev.off()
 
 tiff("./figures/iwc_survey_map.tiff",
-     height = 5,
-     width = 5,
+     height = 4,
+     width = 5.5,
      units = "in",
      res = 300)
 print(p_b)
