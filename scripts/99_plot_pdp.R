@@ -11,13 +11,15 @@ library(pals)
 # Load tracking data
 dat <- readRDS("./output/tracks_with_envars.RDS")
 
-# For caret, the response must be factor
-dat$real <- as.factor(dat$real)
-
 # Depending on the model, caret can only run with complete cases,
 # this also means EKE, SSHA and SSHGRAD are excluded
 dat <- dat[,1:19]
 dat <- dat[complete.cases(dat[,9:19]), ]
+
+# Convert response to binomial
+dat[dat$real == "O", ]$real <- 1
+dat[dat$real == "S", ]$real <- 0
+dat$real <- as.integer(dat$real)
 
 #-------------------------------------------------------------------
 # Load data for prediction
@@ -34,59 +36,58 @@ Mr_EastPacific <- readRDS("./output/fitted_models/Mr_EastPacific.RDS")
 Mr_Pacific <- readRDS("./output/fitted_models/Mr_Pacific.RDS")
 Mr_WestPacific <- readRDS("./output/fitted_models/Mr_WestPacific.RDS")
 
-
 # Create explainers
-explainer_Atlantic <- DALEX::explain(model = Mr_Atlantic, 
-                                data = dat[!is.na(dat$region) & dat$region == "Atlantic",9:19],
-                                y = dat[!is.na(dat$region) & dat$region == "Atlantic", ]$real, 
-                                label = "Mr_Atlantic")
-
-explainer_EastIndian <- DALEX::explain(model = Mr_EastIndian, 
-                                       data = dat[!is.na(dat$region) & dat$region == "EastIndian",9:19],
-                                       y = dat[!is.na(dat$region) & dat$region == "EastIndian", ]$real, 
-                                        label = "Mr_EastIndian")
-
-explainer_EastPacific <- DALEX::explain(model = Mr_EastPacific, 
-                                        data = dat[!is.na(dat$region) & dat$region == "EastPacific",9:19],
-                                        y = dat[!is.na(dat$region) & dat$region == "EastPacific", ]$real, 
-                                       label = "Mr_EastPacific")
-
-explainer_Pacific <- DALEX::explain(model = Mr_Pacific, 
-                                    data = dat[!is.na(dat$region) & dat$region == "Pacific",9:19],
-                                    y = dat[!is.na(dat$region) & dat$region == "Pacific", ]$real, 
-                                       label = "Mr_Pacific")
-
-explainer_WestPacific <- DALEX::explain(model = Mr_WestPacific, 
-                                        data = dat[!is.na(dat$region) & dat$region == "WestPacific",9:19],
-                                        y = dat[!is.na(dat$region) & dat$region == "WestPacific", ]$real, 
-                                       label = "Mr_WestPacific")
+# explainer_Atlantic <- DALEX::explain(model = Mr_Atlantic, 
+#                                 data = dat[!is.na(dat$region) & dat$region == "Atlantic",9:19],
+#                                 y = dat[!is.na(dat$region) & dat$region == "Atlantic", ]$real, 
+#                                 label = "Mr_Atlantic")
+# 
+# explainer_EastIndian <- DALEX::explain(model = Mr_EastIndian, 
+#                                        data = dat[!is.na(dat$region) & dat$region == "EastIndian",9:19],
+#                                        y = dat[!is.na(dat$region) & dat$region == "EastIndian", ]$real, 
+#                                         label = "Mr_EastIndian")
+# 
+# explainer_EastPacific <- DALEX::explain(model = Mr_EastPacific, 
+#                                         data = dat[!is.na(dat$region) & dat$region == "EastPacific",9:19],
+#                                         y = dat[!is.na(dat$region) & dat$region == "EastPacific", ]$real, 
+#                                        label = "Mr_EastPacific")
+# 
+# explainer_Pacific <- DALEX::explain(model = Mr_Pacific, 
+#                                     data = dat[!is.na(dat$region) & dat$region == "Pacific",9:19],
+#                                     y = dat[!is.na(dat$region) & dat$region == "Pacific", ]$real, 
+#                                        label = "Mr_Pacific")
+# 
+# explainer_WestPacific <- DALEX::explain(model = Mr_WestPacific, 
+#                                         data = dat[!is.na(dat$region) & dat$region == "WestPacific",9:19],
+#                                         y = dat[!is.na(dat$region) & dat$region == "WestPacific", ]$real, 
+#                                        label = "Mr_WestPacific")
 
 
 # All data?
-# explainer_Atlantic <- DALEX::explain(model = Mr_Atlantic, 
-#                                      data = dat[,9:19],
-#                                      y = dat$real, 
-#                                      label = "Mr_Atlantic")
-# 
-# explainer_EastIndian <- DALEX::explain(model = Mr_EastIndian, 
-#                                        data = dat[,9:19],
-#                                        y = dat$real,
-#                                        label = "Mr_EastIndian")
-# 
-# explainer_EastPacific <- DALEX::explain(model = Mr_EastPacific, 
-#                                         data = dat[,9:19],
-#                                         y = dat$real,
-#                                         label = "Mr_EastPacific")
-# 
-# explainer_Pacific <- DALEX::explain(model = Mr_Pacific, 
-#                                     data = dat[,9:19],
-#                                     y = dat$real, 
-#                                     label = "Mr_Pacific")
-# 
-# explainer_WestPacific <- DALEX::explain(model = Mr_WestPacific, 
-#                                         data = dat[,9:19],
-#                                         y = dat$real,
-#                                         label = "Mr_WestPacific")
+explainer_Atlantic <- DALEX::explain(model = Mr_Atlantic,
+                                     data = dat[,9:19],
+                                     y = dat$real,
+                                     label = "Mr_Atlantic")
+
+explainer_EastIndian <- DALEX::explain(model = Mr_EastIndian,
+                                       data = dat[,9:19],
+                                       y = dat$real,
+                                       label = "Mr_EastIndian")
+
+explainer_EastPacific <- DALEX::explain(model = Mr_EastPacific,
+                                        data = dat[,9:19],
+                                        y = dat$real,
+                                        label = "Mr_EastPacific")
+
+explainer_Pacific <- DALEX::explain(model = Mr_Pacific,
+                                    data = dat[,9:19],
+                                    y = dat$real,
+                                    label = "Mr_Pacific")
+
+explainer_WestPacific <- DALEX::explain(model = Mr_WestPacific,
+                                        data = dat[,9:19],
+                                        y = dat$real,
+                                        label = "Mr_WestPacific")
 #-------------------------------------------------------------------
 # Plots for n variables
 
