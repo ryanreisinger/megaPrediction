@@ -234,3 +234,48 @@ tiff("./figures/tracks_regions.tiff",
      res = 300)
 print(p_b)
 dev.off()
+
+# Real only, individual maps by region
+regions <- unique(tracks$region)
+regions <- regions[!is.na(regions)]
+
+for (i in 1:length(regions)) {
+  this_region <- regions[i]
+  this_data <- as.data.frame(points_tracks)
+  this_data <- this_data[this_data$region == this_region, ]
+  
+  if(this_region == "Atlantic") {
+  this_colour <- "#e41a1c"
+  }
+  if(this_region == "EastIndian") {
+    this_colour <- "#377eb8"
+  }
+  if(this_region == "WestPacific") {
+    this_colour <- "#ff7f00"
+  }
+  if(this_region == "Pacific") {
+    this_colour <- "#984ea3"
+  }
+  if(this_region == "EastPacific") {
+    this_colour <- "#4daf4a"
+  }
+  
+  
+  p <- plot(this_map) +
+    geom_point(data = this_data, aes(x = lon, y = lat),
+               size = 0.7,
+               col = this_colour) +
+    geom_text(data = as.data.frame(lon_labels), aes(x = lon, y = lat, label = lon_name),
+              colour = "black", size = 2) +
+        guides(fill = "none") +
+    labs(subtitle = this_region)
+  
+  tiff(paste0("./figures/tracks_regions_", this_region, ".tiff"),
+       height = 4,
+       width = 5.5,
+       units = "in",
+       res = 300)
+  print(p)
+  dev.off()
+  
+}
