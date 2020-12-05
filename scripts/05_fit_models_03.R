@@ -700,6 +700,7 @@ dat$M3_WestPacific_predicted_prob <- dat$Mr_WestPacific_predicted_prob * dat$p_W
 
 # Take mean
 dat$M3_predicted_prob <- rowMeans(dat[, c("M3_Pacific_predicted_prob", "M3_EastPacific_predicted_prob", "M3_WestPacific_predicted_prob", "M3_EastIndian_predicted_prob", "M3_Atlantic_predicted_prob")])
+dat$M3_predicted_prob <- dat$M3_predicted_prob*5 # Deal with scale of weighting
 
 # Track validation
 performance <- pROC::auc(pROC::roc(response = dat$real, predictor = dat$M3_predicted_prob, levels = c("S", "O")))[1]
