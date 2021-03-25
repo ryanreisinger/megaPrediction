@@ -1,0 +1,11 @@
+"Model","N_tracks","Internal_cross_validation_mean","Internal_cross_validation_sd","External_validation_all_tracks","External_validation_catches_and_sightings","Rank"
+"M1",168,0.794,0.05,0.943,0.691,8
+"M2",168,NA,NA,0.829,0.83,1
+"M3",168,NA,NA,0.937,0.661,9
+"M4",168,0.92,0.024,0.965,0.766,4
+"M5",168,0.913,0.037,0.968,0.774,3
+"Mr_Atlantic",41,0.887,0.025,0.783,0.745,5
+"Mr_EastIndian",15,0.826,0.078,0.738,0.787,2
+"Mr_EastPacific",50,0.707,0.096,0.632,0.729,7
+"Mr_Pacific",18,0.825,0.046,0.749,0.738,6
+"Mr_WestPacific",29,0.787,0.067,0.696,0.614,10

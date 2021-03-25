@@ -42,6 +42,8 @@ area_grid$SSHA <- NULL
 area_grid$SSHGRAD <- NULL
 
 # Add IWC data for validation
+# iwc <- raster("./output/iwc_survey.grd")
+# iwc <- raster("./output/iwc_catches.grd")
 iwc <- raster("./output/iwc_catches_and_survey.grd")
 area_grid$iwc <- raster::extract(x = iwc, y = area_grid[,c("x", "y")])
 area_grid$iwc[which(area_grid$iwc == 1)] <- "O"
