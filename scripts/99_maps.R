@@ -26,7 +26,7 @@ tracks <- readRDS("./output/tracks_with_envars.RDS")
 prj <- "+proj=stere +lat_0=-90 +lat_ts=-71 +lon_0=0 +k=1 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0"
 
 lon_labels <- data.frame("lon" = c(seq(-180, +135, 45)),
-                         "lat" = -37,
+                         "lat" = -33,
                          "lon_name" = c("180°W|180°E", "135°W", "90°W", "45°W", "0°W|0°E", "45°E", "90°E", "135°E"))
 coordinates(lon_labels) <- c("lon", "lat")
 projection(lon_labels) <- "+proj=longlat +datum=WGS84"
@@ -110,7 +110,7 @@ for (i in 1:nlayers(envars)) {
        height = 5,
        width = 5,
        units = "in",
-       res = 300)
+       res = 600)
   print(p)
   dev.off()
 }
@@ -142,14 +142,15 @@ p <- plot(this_map) +
               aes(x = x, y = y, fill = val)) +
   scale_fill_gradientn(colors = parula(125), na.value = NA, name = "p(Observed track)",
                        limits = c(0, 1)) +
-  geom_text(data = as.data.frame(lon_labels), aes(x = lon, y = lat, label = lon_name), colour = "black", size = 2) +
-  labs(subtitle = which_model)
+  geom_text(data = as.data.frame(lon_labels), aes(x = lon, y = lat, label = lon_name), colour = "black", size = 4) +
+  labs(subtitle = which_model) +
+  theme(plot.subtitle = element_text(size = 13))
 
 tiff(paste0("./figures/predictions/predictions_", which_model, ".tiff"),
-     height = 4,
-     width = 5.5,
+     height = 5,
+     width = 6.5,
      units = "in",
-     res = 300)
+     res = 600)
 print(p)
 dev.off()
 
@@ -193,13 +194,14 @@ p_a <- plot(this_map) +
   guides(colour = guide_legend(override.aes = list(size = 3)), fill = FALSE) +
   
   guides(fill = "none") +
-  labs(subtitle = "a")
+  labs(subtitle = "a") +
+  theme(plot.subtitle = element_text(size = 13))
 
 tiff("./figures/tracks_all.tiff",
-     height = 4,
-     width = 5.5,
+     height = 5,
+     width = 6.5,
      units = "in",
-     res = 300)
+     res = 600)
 print(p_a)
 dev.off()
 
@@ -228,10 +230,10 @@ p_b <- plot(this_map) +
   guides(fill = "none")
 
 tiff("./figures/tracks_regions.tiff",
-     height = 4,
-     width = 5.5,
+     height = 5,
+     width = 6.5,
      units = "in",
-     res = 300)
+     res = 600)
 print(p_b)
 dev.off()
 
@@ -266,15 +268,16 @@ for (i in 1:length(regions)) {
                size = 0.7,
                col = this_colour) +
     geom_text(data = as.data.frame(lon_labels), aes(x = lon, y = lat, label = lon_name),
-              colour = "black", size = 2) +
+              colour = "black", size = 4) +
         guides(fill = "none") +
-    labs(subtitle = this_region)
+    labs(subtitle = this_region) +
+    theme(plot.subtitle = element_text(size = 13))
   
   tiff(paste0("./figures/tracks_regions_", this_region, ".tiff"),
-       height = 4,
-       width = 5.5,
+       height = 5,
+       width = 6.5,
        units = "in",
-       res = 300)
+       res = 600)
   print(p)
   dev.off()
   
