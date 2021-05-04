@@ -243,7 +243,7 @@ points_survey <- SOproj(ll_survey, target = prj)
 
 # Longtidue labels
 lon_labels <- data.frame("lon" = c(seq(-180, +135, 45)),
-                         "lat" = -37,
+                         "lat" = -34,
                          "lon_name" = c("180°W|180°E", "135°W", "90°W", "45°W", "0°W|0°E", "45°E", "90°E", "135°E"))
 coordinates(lon_labels) <- c("lon", "lat")
 projection(lon_labels) <- "+proj=longlat +datum=WGS84"
@@ -262,7 +262,7 @@ p_a <- plot(this_map) +
   geom_point(data = as.data.frame(points_catch), aes(lon, lat),
              size = 0.7, colour = "#EE7733") +
   geom_text(data = as.data.frame(lon_labels), aes(x = lon, y = lat, label = lon_name),
-            colour = "black", size = 2) +
+            colour = "black", size = 3) +
   guides(fill = "none") +
   labs(subtitle = "a")
 
@@ -270,13 +270,13 @@ p_b <- plot(this_map) +
   geom_point(data = as.data.frame(points_survey), aes(lon, lat),
              size = 0.7, colour = "#EE7733") +
   geom_text(data = as.data.frame(lon_labels), aes(x = lon, y = lat, label = lon_name),
-            colour = "black", size = 2) +
+            colour = "black", size = 3) +
   guides(fill = "none") +
   labs(subtitle = "b")
 
 
 tiff("./figures/iwc_catch_map.tiff",
-     height = 4,
+     height = 5,
      width = 5.5,
      units = "in",
      res = 300)
@@ -284,7 +284,7 @@ print(p_a)
 dev.off()
 
 tiff("./figures/iwc_survey_map.tiff",
-     height = 4,
+     height = 5,
      width = 5.5,
      units = "in",
      res = 300)

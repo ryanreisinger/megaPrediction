@@ -38,7 +38,7 @@ lon_labels <- SOproj(lon_labels, target = prj)
 
 envar_titles <- data.frame("name" = names(envars),
                            "title" = c("Depth\n(m)",
-                                       "Bottom slope\n(deg)",
+                                       "Bottom slope\n(°)",
                                        "Distance to slope\n(km)",
                                        "Distance to shelf\n(km)",
                                        "Sea surface temperature\n(°C)",
@@ -67,7 +67,7 @@ this_map$bathy_legend <- NULL
 # Plot
 for (i in 1:nlayers(envars)) {
 tiff(paste0("./figures/envars/envars_", names(envars[[i]]), ".tiff"),
-     height = 2.5,
+     height = 3,
      width = 5,
      units = "in",
      res = 300)
@@ -102,13 +102,13 @@ for (i in 1:nlayers(envars)) {
                 aes(x = x, y = y, fill = val)) +
     scale_fill_gradientn(colors = ocean.haline(125), na.value = NA, name = this_caption) +
     labs(subtitle = this_var) +
-    geom_text(data = as.data.frame(lon_labels), aes(x = lon, y = lat, label = lon_name), colour = "black", size = 2) +
+    geom_text(data = as.data.frame(lon_labels), aes(x = lon, y = lat, label = lon_name), colour = "black", size = 3.5) +
     theme(legend.position = "bottom") +
     guides(fill = guide_colorbar(title.position = "top", title.hjust = 0.5, barwidth = 10))
   
   tiff(paste0("./figures/envars_alt/envars_alt_", this_var, ".tiff"),
-       height = 5,
-       width = 5,
+       height = 5.5,
+       width = 5.5,
        units = "in",
        res = 600)
   print(p)

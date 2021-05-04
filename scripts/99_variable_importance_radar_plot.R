@@ -19,9 +19,13 @@ dat_sub <- dplyr::filter(dat,
                            Model == "Mr_Pacific" |
                            Model == "Mr_WestPacific")
 
+dat_sub <- dplyr::arrange(dat_sub, Covariate)
+
 plot_data <- pivot_wider(data = dat_sub,
                          names_from = "Covariate",
                          values_from = "Overall")
+
+plot_data <- dplyr::arrange(plot_data, Model)
 
 # Colours
 these_cols <- c("#0077BB",
@@ -49,7 +53,9 @@ ggradar(plot_data,
         background.circle.colour = "white",
         gridline.min.linetype = 1,
         gridline.mid.linetype = 1,
-        gridline.max.linetype = 1
+        gridline.max.linetype = 1,
+        legend.title = "Regional\nmodels",
+        plot.title = "a"
 )        
 dev.off()
 
@@ -61,25 +67,27 @@ dat_group <- group_by(dat_sub, Covariate) %>%
 #----------------------------------------
 # For models m1-m5
 # Select and format data
+# Only models M1, M3 and M5 include environmental covariates
 dat_sub <- dplyr::filter(dat,
-                         Model == "Mr_Atlantic" |
-                           Model == "Mr_EastIndian" |
-                           Model == "Mr_EastPacific" |
-                           Model == "Mr_Pacific" |
-                           Model == "Mr_WestPacific")
+                         Model == "M1" |
+                           Model == "M3" |
+                           Model == "M5")
+# Drop the region covariates
+dat_sub <- dplyr::filter(dat_sub,
+                         !grepl("Mr_", Covariate))
+
+dat_sub <- dplyr::arrange(dat_sub, Covariate)
 
 plot_data <- pivot_wider(data = dat_sub,
                          names_from = "Covariate",
                          values_from = "Overall")
 
-# Colours
-these_cols <- c("#0077BB",
-                "#33BBEE",
-                "#009988",
-                "#EE7733",
-                "#CC3311")
+plot_data <- dplyr::arrange(plot_data, Model)
 
-these_cols <- brewer.set1(5)
+# Colours
+these_cols <- c("#a65628",
+                "#f781bf",
+                "#999999")
 
 # Plot
 pdf("./figures/varimp_radar_circumpolar.pdf",
@@ -98,6 +106,8 @@ ggradar(plot_data,
         background.circle.colour = "white",
         gridline.min.linetype = 1,
         gridline.mid.linetype = 1,
-        gridline.max.linetype = 1
+        gridline.max.linetype = 1,
+        legend.title = "Circumpolar\nmodels",
+        plot.title = "b"
 )        
 dev.off()
